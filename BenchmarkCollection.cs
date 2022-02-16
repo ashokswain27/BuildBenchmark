@@ -17,7 +17,7 @@ namespace BuildBenchmark
         ConcurrentDictionary<int,int> concurrentDict = new ConcurrentDictionary<int, int>();
                 
 
-        public void InsertTest()
+        public void BenchmarkTest()
         {
             CreateWorkload();
 

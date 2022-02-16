@@ -6,7 +6,7 @@ namespace BuildBenchmark
     [RPlotExporter]
     [MemoryDiagnoser]
     [CpuDiagnoser]
-    public class DeleteBenchmark
+    public class DeleteSingleItemBenchmark
     {
        
 
@@ -15,7 +15,9 @@ namespace BuildBenchmark
         private SortedSet<int> sortedSet = new SortedSet<int>();
         private Dictionary<int, int> dictionary = new Dictionary<int, int>();
 
-        [Params(1000, 10000, 100000, 1000000, 10000000)]
+        int deleteItem = 999;
+
+        [Params(1000, 10000, 100000)]
         public int N;
 
         [IterationSetup]
@@ -41,43 +43,29 @@ namespace BuildBenchmark
         }
 
         [Benchmark]
-        public void RemoveAll_IList()
+        public void RemoveItem_List()
         {
-            for (var index = list.Count - 1; index >= 0; index--) 
-            {
-                var item = list[index];
-                if (item > 1000)
-                {
-                    list.RemoveAt(index);
-                }
-            }
+            var itemToRemove = list.SingleOrDefault(r => r == deleteItem);
+            
+                list.Remove(itemToRemove);
+           
+        
+        }
 
+        [Benchmark]
+        public void RemoveItem_IList_HashSet()
+        {
+            
+             hashSet.Remove(deleteItem);
             
         }
 
         [Benchmark]
-        public void RemoveAll_HashSet()
+        public void RemoveItem_Dictionary()
         {
-            foreach (var item in hashSet)
-            {
-                if (item > 1000)
-                {
-                    hashSet.Remove(item);
-                }
-            }
-        }
-
-        [Benchmark]
-        public void RemoveAll_Dictionary()
-        {
-            foreach (var item in dictionary)
-            {
-                if(item.Value.CompareTo(1000) > 0)
-                {
-                    dictionary.Remove(item.Key);
-                }
-
-            }
+           
+             dictionary.Remove(deleteItem);
+              
         }
 
       /*  [Benchmark]

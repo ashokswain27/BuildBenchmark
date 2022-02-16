@@ -4,9 +4,15 @@
 
 namespace BuildBenchmark
 {
+    [RPlotExporter]
+    [MemoryDiagnoser]
+    [CpuDiagnoser]
     public class IterationBenchmark
     {
-        private const int N = 10000000;
+        //private const int N = 1000;
+        [Params(1000, 1000000)]
+        public int N;
+
         private const int InsertionValue = 10000001;
         private const int SearchValue = 999;
         private const int DeleteValue = 999;
@@ -15,19 +21,25 @@ namespace BuildBenchmark
         Dictionary<int, int> dictionary = new Dictionary<int, int>();
         HashSet<int> hashSet = new HashSet<int>();
         SortedSet<int> sortedSet = new SortedSet<int>();
-       
+       // int[] array = new int[N];
 
 
 
+        
         public IterationBenchmark()
         {
             CreateWorkload();
         }
 
+        [IterationSetup]
         private void CreateWorkload()
         {
             Console.WriteLine("Creating the Workload");
-
+           
+          /*  for (int i = 0; i < N; i++)
+            {
+                array[i] = i;
+            }*/
             for (int i = 0; i < N; i++)
             {
                 list.Add(i);
@@ -49,6 +61,17 @@ namespace BuildBenchmark
             Console.WriteLine("Workload creation is finished");
 
         }
+
+     /*   [Benchmark]
+        public void IterateArray()
+        {
+           
+            for (int i = 0; i < array.Count(); i++)
+            {
+
+            }
+            
+        }*/
 
         [Benchmark]
         public void IterateList()

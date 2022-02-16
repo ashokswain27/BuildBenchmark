@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using BenchmarkDotNet.Attributes;
+﻿using BenchmarkDotNet.Attributes;
 
 namespace BuildBenchmark
 {
+    [RPlotExporter]
+    [MemoryDiagnoser]
+    [CpuDiagnoser]
     public class SearchBenchmark
     {
         private IList<int> list = new List<int>();
@@ -15,7 +12,7 @@ namespace BuildBenchmark
         private SortedSet<int> sortedSet = new SortedSet<int>();
         private Dictionary<int, int> dictionary = new Dictionary<int, int>();
 
-        [Params(1000,100000, 1000000)]
+        [Params(1000,10000, 100000, 1000000)]
         public int N;
 
         [IterationSetup]
